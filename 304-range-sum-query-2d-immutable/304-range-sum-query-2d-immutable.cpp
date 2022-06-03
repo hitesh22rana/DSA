@@ -4,21 +4,26 @@ private:
 public:
     NumMatrix(vector<vector<int>>& mat) {
         int m = mat.size();
-        int n = m > 0 ? mat[0].size() : 0;
+        int n = mat[0].size();
         
-        this->matrix = vector<vector<int>>(m+1, vector<int>(n+1, 0));
-        
-        for(int i=1; i<=m; i++) {
-            for(int j=1; j<=n; j++) {
-                this->matrix[i][j] = mat[i-1][j-1] + 
-                             this->matrix[i-1][j] + this->matrix[i][j-1] - this->matrix[i-1][j-1] ;
+        for(vector<int> val : mat) {  
+            for(int i = 1 ; i<n ; i++) {
+                val[i] += val[i-1];
             }
+            this->matrix.push_back(val);
         }
         
     }
     
     int sumRegion(int row1, int col1, int row2, int col2) {
-        return this->matrix[row2+1][col2+1] - this->matrix[row2+1][col1] - this->matrix[row1][col2+1] + this->matrix[row1][col1];
+        int count = 0;
+        
+        for(int i = row1 ; i<=row2 ; i++) {
+            count -= (col1 > 0) ? this->matrix[i][col1-1] : 0;
+            count +=this->matrix[i][col2];   
+        }
+        
+        return count;
     }
 };
 
