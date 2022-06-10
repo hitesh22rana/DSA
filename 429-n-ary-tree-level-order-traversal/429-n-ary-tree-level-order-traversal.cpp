@@ -28,19 +28,18 @@ public:
         
         while(!q.empty()) {
             vector<int> val;
-            queue<Node*> qu;
             
-            while(!q.empty()) {
+            for(int i = q.size() ; i>=1 ; i--) {
                 Node* node = q.front();
                 q.pop();
                 val.push_back(node->val);
-                
-                for(Node* child : node->children) {
-                    qu.push(child);
+                for (Node* child : node->children) {
+                    q.push(child);
                 }
             }
-            q = qu;
-            ans.push_back(val);   
+            
+            if(val.size()) ans.push_back(val);
+            
         }
         return ans;
     }
