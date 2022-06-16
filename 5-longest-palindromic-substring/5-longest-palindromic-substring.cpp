@@ -5,6 +5,8 @@ public:
         
         vector<vector<bool> > dp(n , vector<bool>(n,false));
         string longest = "";
+        int maxi = 0;
+        pair<int,int> strIndex;
         
         for(int g = 0 ; g<n ; g++) {
             
@@ -26,12 +28,14 @@ public:
                 }
                 
                 if(dp[i][j]) {
-                    if(j-i+1 > longest.size()) {
-                        longest = s.substr(i,j-i+1);
+                    if(j-i+1 > maxi) {
+                        maxi = j-i+1;
+                        strIndex.first = i;
+                        strIndex.second = j-i+1;
                     }
                 }   
             }
         }
-        return longest;
+        return s.substr(strIndex.first,strIndex.second);
     }
 };
