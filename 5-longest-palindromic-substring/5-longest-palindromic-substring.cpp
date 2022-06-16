@@ -1,41 +1,35 @@
 class Solution {
+private:
+    int expandFromMiddle(string s , int left , int right) {
+        if(s.size() == 0 || left > right) return 0;
+        
+        while(left >= 0 && right < s.size() && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        
+        return right - left - 1;
+    }
+    
 public:
     string longestPalindrome(string s) {
+        if(s.size() == 0) return "";
         int n = s.size();
         
-        vector<vector<bool> > dp(n , vector<bool>(n,false));
-        string longest = "";
-        int maxi = 0;
-        pair<int,int> strIndex;
+        int start = 0;
+        int end = 0;
         
-        for(int g = 0 ; g<n ; g++) {
+        for(int i = 0 ; i<n ; i++) {
+            int len1 = expandFromMiddle(s,i,i);
+            int len2 = expandFromMiddle(s,i,i+1);
+            int len = max(len1,len2);    
             
-            for(int i = 0 , j = g ; j < dp[0].size() ; i++ , j++) {
-                if(g == 0) {
-                    dp[i][j] = true;
-                } else if(g == 1) {
-                    if(s[i] == s[j]) {
-                        dp[i][j] = true;
-                    } else {
-                        dp[i][j] = false;
-                    }
-                } else {
-                    if(s[i] == s[j] && dp[i+1][j-1] == true) {
-                        dp[i][j] = true;
-                    } else {
-                        dp[i][j] = false;
-                    }
-                }
-                
-                if(dp[i][j]) {
-                    if(j-i+1 > maxi) {
-                        maxi = j-i+1;
-                        strIndex.first = i;
-                        strIndex.second = j-i+1;
-                    }
-                }   
+            if(len > end - start) {
+                start = i - ((len - 1)>>1);
+                end = i + (len>>1);
             }
+            
         }
-        return s.substr(strIndex.first,strIndex.second);
+        return s.substr(start,end-start+1);
     }
 };
