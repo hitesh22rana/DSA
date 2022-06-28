@@ -26,9 +26,9 @@ public:
         
         for(int i = 0 ; i<n-1 ; i++) {
            
-            while(freq[i+1].second > freq[i].second) {
-                freq[i+1].second--;
-                cnt++;
+            if(freq[i+1].second > freq[i].second) {
+                cnt += (freq[i+1].second - freq[i].second);
+                freq[i+1].second = freq[i].second;
             }
 
             
