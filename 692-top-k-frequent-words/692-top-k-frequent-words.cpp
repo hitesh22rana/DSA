@@ -1,10 +1,23 @@
-class Solution {
-private:
-    static bool compare(pair<int,string> &a , pair<int,string> &b) {
-        if(a.first == b.first) return a.second < b.second;
-        return a.first > b.first;
-    }
+class Word {
+public:
+    int val;
+    string word;
     
+    Word(int _val , string _word) {
+        this->val = _val;
+        this->word = _word;
+    }
+};
+
+class compare {
+public:
+    bool operator()(Word &a , Word &b) {
+        if(a.val == b.val) return a.word > b.word;
+        return a.val < b.val;
+    }
+};
+
+class Solution {    
 public:
     vector<string> topKFrequent(vector<string>& words, int k) {
         map<string,int> mp;
@@ -13,19 +26,18 @@ public:
             mp[word]++;
         }
         
-        vector<pair<int,string> > values;
+        priority_queue<Word , vector<Word> ,  compare> values;
         
         for(auto &it : mp) {
-            values.push_back(make_pair(it.second,it.first));
+            values.push(Word(it.second,it.first));
         }
-        
-        sort(values.begin(),values.end(),compare);
         
         vector<string> ans;
         
-        for(auto &it : values) {
+        while(!values.empty()) {
             if(!k) break;
-            ans.push_back(it.second);
+            ans.push_back(values.top().word);
+            values.pop();
             k--;
         }
         
