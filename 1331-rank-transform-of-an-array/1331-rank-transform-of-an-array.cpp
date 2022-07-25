@@ -7,7 +7,9 @@ public:
         unordered_map<int,int> mp;
         
         for(int num : nums) {
-            mp.emplace(num, mp.size() + 1);
+            if(mp.find(num) == mp.end()) {
+                mp[num] = mp.size() + 1;            
+            }
         }
         
         for(int i = 0 ; i<arr.size() ; i++) {
