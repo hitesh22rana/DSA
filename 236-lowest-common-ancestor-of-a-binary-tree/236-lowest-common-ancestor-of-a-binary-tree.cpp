@@ -14,10 +14,9 @@ public:
     bool dfs(TreeNode* root, TreeNode* p, TreeNode* q) {
         if(root == NULL) return false;
         
-        bool left = dfs(root->left,p,q) ? true : false;
-        bool right = dfs(root->right,p,q) ? true : false;
-        
-        bool mid = (root == p || root == q) ? true : false;
+        bool left = dfs(root->left,p,q);
+        bool right = dfs(root->right,p,q);
+        bool mid = (root == p || root == q);
         
         if((mid && left) || (mid && right) || (left && right)) {
             ans = root;
