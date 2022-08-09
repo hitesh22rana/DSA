@@ -5,13 +5,10 @@ public:
     int numFactoredBinaryTrees(vector<int>& arr) {
         sort(arr.begin(),arr.end());
         unordered_map<int,long long int> mp;
-        
-        for(int& val : arr) {
-            mp[val] = 1;
-        }
+        long long int ans = 0;
         
         for(int i = 0 ; i<arr.size() ; i++) {
-            long long int count = 0;
+            long long int count = 1;
             
             for(int j = 0 ; j<i ; j++) {
                 if(arr[i] % arr[j] == 0) {
@@ -25,12 +22,7 @@ public:
             }
             
             mp[arr[i]] += count;
-        }
-        
-        long long int ans = 0;
-        
-        for(auto& num : mp) {
-            ans += num.second;
+            ans += mp[arr[i]];
         }
         
         return ans % MOD;
