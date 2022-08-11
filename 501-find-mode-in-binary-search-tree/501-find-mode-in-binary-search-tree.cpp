@@ -9,57 +9,33 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-class comp {
-public:
-    bool operator()(pair<int,int>& p1, pair<int,int>& p2) {
-        return p1.second < p2.second;
-    }
-};
-
 class Solution {
 public:
-    void inorder(TreeNode* root, unordered_map<int,int>& mp) {
-        if(root == NULL) return;
-        inorder(root->left,mp);
-        mp[root->val]++;
-        inorder(root->right,mp);
+    int maxi = 0, freq = 0, prev = INT_MIN;
+    vector<int> ans;
+
+    void inorder(TreeNode* root) {
+        if (root == NULL) return;
+        inorder(root->left);
+        if (prev == root->val) freq++;
+        else freq = 1;
+        
+        if (freq > maxi) {
+            ans.clear();
+            maxi = freq;
+            ans.push_back(root->val);
+        }
+        
+        else if (freq == maxi) {
+            ans.push_back(root->val);
+        }
+        
+        prev = root->val;
+        inorder(root->right);
     }
     
     vector<int> findMode(TreeNode* root) {
-        unordered_map<int,int> mp;
-        inorder(root,mp);
-        
-        vector<int> ans;
-        priority_queue<pair<int,int>, vector<pair<int,int> >, comp> pq;
-        
-        for(auto& it : mp) {
-            if(!pq.empty()) {
-                if(pq.top().second < it.second) {
-                    pq.pop();
-                    pq.push(it);
-                } else if(pq.top().second == it.second) {
-                    pq.push(it);
-                }
-                
-            } else {
-                pq.push(it);
-            }
-        }
-        
-        pair<int,int> prev = pq.top();
-        pq.pop();
-        ans.push_back(prev.first);
-        
-        while(!pq.empty()) {
-            if(prev.second <= pq.top().second) {
-                ans.push_back(pq.top().first);
-                pq.pop();
-            } else {
-                break;   
-            }
-        }
-        
-        return ans;
+        inorder(root);
+        return ans;        
     }
 };
