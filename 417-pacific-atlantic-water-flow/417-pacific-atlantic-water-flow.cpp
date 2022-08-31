@@ -1,6 +1,15 @@
+struct hashFunction
+{
+  size_t operator()(const pair<int , 
+                    int> &x) const
+  {
+    return x.first ^ x.second;
+  }
+};
+
 class Solution {
 public:
-    void dfs(int r, int c, set<pair<int,int>>& visit, int prevHeight, vector<vector<int>>& heights) {
+    void dfs(int r, int c, unordered_set<pair<int,int>,hashFunction>& visit, int prevHeight, vector<vector<int>>& heights) {
         pair<int,int> p = {r,c};
         if(visit.find(p) != visit.end() || r < 0 || c < 0 || r >= heights.size() || c >= heights[0].size() || heights[r][c] < prevHeight) {
             return;
@@ -18,8 +27,8 @@ public:
         int m = heights.size();
         int n = heights[0].size();
         
-        set<pair<int,int>> pacific;
-        set<pair<int,int>> atlantic;
+        unordered_set<pair<int,int>,hashFunction> pacific;
+        unordered_set<pair<int,int>,hashFunction> atlantic;
         
         for(int i = 0 ; i<n ; i++) {
             dfs(0,i,pacific,heights[0][i],heights);
