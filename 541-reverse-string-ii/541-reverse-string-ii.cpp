@@ -1,11 +1,6 @@
 class Solution {
 public:
     string reverseStr(string s, int k) {
-        if(s.size() < k) {
-            reverse(s.begin(),s.end());
-            return s;
-        }
-        
         string ans;
         string rev;
         
