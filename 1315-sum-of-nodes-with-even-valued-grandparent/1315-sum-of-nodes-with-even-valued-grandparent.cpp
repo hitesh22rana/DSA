@@ -11,41 +11,31 @@
  */
 class Solution {
 public:
-    int sumEvenGrandparent(TreeNode* root) {
-        queue<TreeNode*> q;
-        q.push(root);
-        int ans = 0;
-                
-        while(!q.empty()) {
-            int n = q.size();
-
-            for(int i = 0 ; i<n ; i++) {
-                TreeNode* node = q.front();
-                q.pop();
-                
-                if(node->left) {
-                    q.push(node->left);
-                }
-                
-                if(node->right) {
-                    q.push(node->right);
-                }
-                
-                if(node->val % 2 == 0) {
-                    if(node->left) {
-                        if(node->left->left) ans += node->left->left->val;
-                        if(node->left->right) ans += node->left->right->val;
-                    }
+    void dfs(TreeNode* node, int& sum) {
+        if(node == NULL) return;
+        
+        if(node->val % 2 == 0) {
+            if(node->left) {
+                if(node->left->left) sum += node->left->left->val;
+                if(node->left->right) sum += node->left->right->val;
+            }
                     
-                    if(node->right) {
-                        if(node->right->left) ans += node->right->left->val;
-                        if(node->right->right) ans += node->right->right->val;
-                    }
-                }
-                
+            if(node->right) {
+                if(node->right->left) sum += node->right->left->val;
+                if(node->right->right) sum += node->right->right->val;
             }
         }
         
-        return ans;
+        dfs(node->left,sum);
+        dfs(node->right,sum);
+    }
+    
+    int sumEvenGrandparent(TreeNode* root) {
+        if(root == NULL) return 0;
+        
+        int sum = 0;
+        
+        dfs(root,sum);
+        return sum;
     }
 };
