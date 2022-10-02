@@ -3,8 +3,9 @@ public:
     int MOD = 1e9+7;
 
     int numRollsToTarget(int n, int k, int target) {
-        vector<vector<long long int>> dp(n + 1, vector<long long int>(target+1,0));
-        dp[0][0] = 1;
+        vector<long long int> prev(target + 1);
+        vector<long long int> curr(target + 1);
+        prev[0] = 1;
         
         for(int dice = 1 ; dice<=n ; dice++) {
             for(int t = 1 ; t<=target ; t++) {
@@ -12,14 +13,16 @@ public:
                 
                 for(int i = 1 ; i<=k ; i++) {
                     if(t - i >= 0) {
-                        ans = ((ans % MOD) + (dp[dice - 1][t - i] % MOD)) % MOD;                    
+                        ans = ((ans % MOD) + (prev[t - i] % MOD)) % MOD;                    
                     }
                 }
                 
-                dp[dice][t] = ans;
+                curr[t] = ans;
             }
+            
+            prev = curr;
         }
 
-        return dp[n][target];
+        return prev[target];
     }
 };
