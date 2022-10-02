@@ -8,7 +8,6 @@ public:
         
         for(int i = 1 ; i<arr.size() ; i++) {
             prefix[i] = prefix[i-1] ^ arr[i];
-            cout<<prefix[i]<<" ";
         }
         
         for(vector<int>& query : queries) {
