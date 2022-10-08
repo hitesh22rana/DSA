@@ -21,29 +21,47 @@
  */
 class Solution {
 public:
-    TreeNode* sortedArrayToBST(vector<int>& arr, int start, int end) {
+    int getValue(ListNode* head, int mid) {
+        while(mid--) {
+            if(head == NULL) return -1;
+            
+            head = head->next;
+        }
+        
+        return head->val;
+    }
+    
+    TreeNode* sortedArrayToBST(ListNode* head, int start, int end) {
         if(start > end) return NULL;
         
         int mid = (start + end) / 2;
         
-        TreeNode* root = new TreeNode(arr[mid]);
+        int valAtMid = getValue(head, mid);
         
-        root->left = sortedArrayToBST(arr, start, mid - 1);
-        root->right = sortedArrayToBST(arr, mid + 1, end);
+        TreeNode* root = new TreeNode(valAtMid);
+        
+        root->left = sortedArrayToBST(head, start, mid - 1);
+        root->right = sortedArrayToBST(head, mid + 1, end);
     
         return root;
+    }
+    
+    int lengthOfList(ListNode* head) {
+        int size = 0;
+        
+        while(head != NULL) {
+            size++;
+            head = head->next;
+        }
+        
+        return size++;
     }
     
     TreeNode* sortedListToBST(ListNode* head) {
         if(head == NULL) return NULL;
         
-        vector<int> values;
-        
-        while(head != NULL) {
-            values.push_back(head->val);
-            head = head->next;
-        }
-        
-        return sortedArrayToBST(values, 0, values.size() - 1);        
+        int size = lengthOfList(head);
+
+        return sortedArrayToBST(head, 0, size - 1);        
     }
 };
