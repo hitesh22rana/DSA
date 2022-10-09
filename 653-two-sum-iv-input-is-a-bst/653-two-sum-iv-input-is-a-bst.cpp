@@ -11,21 +11,43 @@
  */
 class Solution {
 public:
-    bool dfs(TreeNode* root, int target, unordered_map<int,int>& mp) {
+    bool find(TreeNode* root, int target, TreeNode* curr) {
         if(root == NULL) return false;
-        if(mp.find(target - root->val) != mp.end()) return true;
+                
+        if(root != curr && root->val == target) return true;
         
-        mp[root->val] ++;
+        bool left = find(root->left, target, curr);
+        bool right = find(root->right, target, curr);
         
-        bool left = dfs(root->left, target, mp);
-        bool right = dfs(root->right, target, mp);
         return left || right;
-        
     }
     
     bool findTarget(TreeNode* root, int k) {
-        if(root == NULL) return false;
-        unordered_map<int,int> mp;
-        return dfs(root, k, mp);   
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while(!q.empty()) {
+            int n = q.size();
+            
+            for(int i = 0 ; i<n ; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                
+                bool isPresent = find(root, k - node->val, node);
+                
+                if(isPresent) return true;
+                
+                if(node->left) {
+                    q.push(node->left);
+                }
+                
+                if(node->right) {
+                    q.push(node->right);
+                }
+            }
+            
+        }
+        
+        return false;
     }
 };
