@@ -10,21 +10,22 @@
  * };
  */
 class Solution {
-private:
-    void dfs(TreeNode* root , int k , unordered_map<int,int>& mp , bool& flag) {
-        if(root == NULL || flag == true) return;
-        dfs(root->left,k,mp,flag);
-        if(mp[k-root->val] > 0) flag = true;
-        mp[root->val]++;
-        dfs(root->right,k,mp,flag);
+public:
+    bool dfs(TreeNode* root, int target, unordered_map<int,int>& mp) {
+        if(root == NULL) return false;
+        if(mp.find(target - root->val) != mp.end()) return true;
+        
+        mp[root->val] ++;
+        
+        bool left = dfs(root->left, target, mp);
+        bool right = dfs(root->right, target, mp);
+        return left || right;
+        
     }
     
-public:
     bool findTarget(TreeNode* root, int k) {
-        if(root == NULL || (root->left == NULL && root->right == NULL)) return false;
+        if(root == NULL) return false;
         unordered_map<int,int> mp;
-        bool flag = false;
-        dfs(root,k,mp,flag);
-        return flag;
+        return dfs(root, k, mp);   
     }
 };
