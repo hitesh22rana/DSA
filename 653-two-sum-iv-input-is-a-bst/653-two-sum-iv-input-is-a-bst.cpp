@@ -12,7 +12,7 @@
 class Solution {
 public:
     bool find(TreeNode* root, int target, TreeNode* curr) {
-        if(root == NULL) return false;
+        if(root == nullptr) return false;
                 
         if(root != curr && root->val == target) return true;
 
