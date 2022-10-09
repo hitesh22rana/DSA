@@ -15,11 +15,8 @@ public:
         if(root == NULL) return false;
                 
         if(root != curr && root->val == target) return true;
-        
-        bool left = find(root->left, target, curr);
-        bool right = find(root->right, target, curr);
-        
-        return left || right;
+
+        return find(root->left, target, curr) || find(root->right, target, curr);
     }
     
     bool findTarget(TreeNode* root, int k) {
