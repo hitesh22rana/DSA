@@ -12,9 +12,7 @@ class Solution {
 public:
     ListNode* deleteMiddle(ListNode* head) {
         if(!head || !head->next) return nullptr;
-        
-        ListNode* newHead = head;
-        
+                
         ListNode* fastptr = head;
         ListNode* slowptr = head;
                 
@@ -24,14 +22,14 @@ public:
         }
         
         if(!slowptr->next) {
-            newHead->next = nullptr;
+            head->next = nullptr;
         } else {
             ListNode* next = slowptr->next;
             *slowptr = *next;
             delete(next);
         }
                 
-        return newHead;
+        return head;
         
     }
 };
