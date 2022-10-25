@@ -5,11 +5,11 @@ public:
         string st2;
         
         for(string& word : word1) {
-            for(char& c : word) st1.push_back(c);
+            st1 += word;
         }
         
         for(string& word : word2) {
-            for(char& c : word) st2.push_back(c);
+            st2 += word;
         }
         
         return st1 == st2;
