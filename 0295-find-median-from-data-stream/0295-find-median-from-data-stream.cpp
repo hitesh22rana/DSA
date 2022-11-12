@@ -1,66 +1,38 @@
 class MedianFinder {
-private:
-    int signumFunc(int miniSize , int maxiSize) {
-        if(miniSize == maxiSize) return 0;
-        else if(miniSize > maxiSize) return 1;
-        return -1;
-    }
-    
-    
-    void callMedian(int element, priority_queue<int> &maxi , priority_queue<int,vector<int>,greater<int>> &mini , double &median) {
-
-        switch(signumFunc(maxi.size() , mini.size())) {
-            case 0:
-                if(element > median) {
-                    mini.push(element);
-                    median = (double)mini.top();
-                } else {
-                    maxi.push(element);
-                    median = (double)maxi.top();
-                }
-                break;
-
-            case 1:
-                if(element > median) {
-                    mini.push(element);
-                    median = (double)((double)mini.top() + (double)maxi.top())/2;
-                } else {
-                    mini.push(maxi.top());
-                    maxi.pop();
-                    maxi.push(element);
-                    median = (double)((double)mini.top() + (double)maxi.top())/2;
-                }
-                break;
-
-            case -1:
-                if(element > median) {
-                    maxi.push(mini.top());
-                    mini.pop();
-                    mini.push(element);
-                    median = (double)((double)mini.top() + (double)maxi.top())/2;
-                } else {
-                    maxi.push(element);
-                    median = (double)((double)mini.top() + (double)maxi.top())/2;
-                }
-                break;
-        }
-    }
-
 public:
     priority_queue<int> maxi;
     priority_queue<int,vector<int>,greater<int>> mini;
-    double median;
     
     MedianFinder() {
-        this->median = 0;
+    
     }
     
     void addNum(int num) {
-        callMedian(num,maxi,mini,median);
+        if(maxi.empty() || maxi.top() >= num) {
+            maxi.push(num);
+        } else {
+            mini.push(num);
+        }
+        
+        if(maxi.size() > mini.size() + 1) {
+            mini.push(maxi.top());
+            maxi.pop();
+        }
+        
+        else if(maxi.size() < mini.size()) {
+            maxi.push(mini.top());
+            mini.pop();
+        }
+    
+        return;    
     }
     
     double findMedian() {
-        return median;
+        if(maxi.size() == mini.size()) {
+            return (double) ((maxi.top() + mini.top()) / 2.0);
+        }
+        
+        return (double)maxi.top();
     }
 };
 
