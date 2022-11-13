@@ -1,7 +1,7 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        stack<string> st;
+        string ans = "";
         
         int start = 0;
         int end = s.size();
@@ -12,7 +12,8 @@ public:
             if(s[start] == ' ') {
                 
                 if(str != "" || str.size() != 0) {
-                    st.push(str);
+                    reverse(str.begin(), str.end());
+                    ans += str + " ";
                     str = "";
                 }
                 
@@ -26,18 +27,12 @@ public:
         }
         
         if(str != "" || str.size() > 0) {
-            st.push(str);
+            reverse(str.begin(), str.end());
+            ans += str + " ";
         }
-        
-        string ans = "";
-        
-        while(!st.empty()) {
-            ans += st.top() + " ";
-            st.pop();
-        }
-        
+
         ans.pop_back();
-        
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
