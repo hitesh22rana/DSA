@@ -12,8 +12,7 @@ public:
             if(s[start] == ' ') {
                 
                 if(str != "" || str.size() != 0) {
-                    reverse(str.begin(), str.end());
-                    ans += str + " ";
+                    ans = " " + str + ans;
                     str = "";
                 }
                 
@@ -27,12 +26,10 @@ public:
         }
         
         if(str != "" || str.size() > 0) {
-            reverse(str.begin(), str.end());
-            ans += str + " ";
+            ans = " " + str + ans;
         }
 
-        ans.pop_back();
-        reverse(ans.begin(), ans.end());
-        return ans;
+
+        return ans.substr(1);
     }
 };
