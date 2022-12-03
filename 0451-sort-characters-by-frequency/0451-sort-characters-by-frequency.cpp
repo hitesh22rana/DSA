@@ -1,6 +1,6 @@
 class Solution {
 public:
-    static bool compareInterval(pair<int,int> i1, pair<int,int> i2) {
+    static bool compareInterval(pair<int,int>& i1, pair<int,int>& i2) {
         return (i1.first < i2.first);
     }
     
@@ -11,7 +11,7 @@ public:
             count[i] = make_pair(0,i);
         }
         
-        for(char c : s) {
+        for(char& c : s) {
             count[(int)c].first++;
         }
         
