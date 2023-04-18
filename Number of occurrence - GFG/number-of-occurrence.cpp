@@ -8,10 +8,42 @@ using namespace std;
 //User function template for C++
 class Solution{
 public:	
-	/* if x is present in arr[] then returns the count
-		of occurrences of x, otherwise returns 0. */
+	int lower(int arr[], int n, int x) {
+	    int start = 0;
+	    int end = n-1;
+	    
+	    while(start <= end) {
+	        int mid = end + (start - end) / 2;
+	        
+	        if(arr[mid] >= x) {
+	            end = mid - 1;
+	        } else {
+	            start = mid + 1;
+	        }
+	    }
+	    
+	    return start;
+	}
+	
+	int upper(int arr[], int n, int x) {
+	    int start = 0;
+	    int end = n-1;
+	    
+	    while(start <= end) {
+	        int mid = start + (end - start) / 2;
+	        
+	        if(arr[mid] <= x) {
+	            start = mid + 1;
+	        } else {
+	            end = mid - 1;
+	        }
+	    }
+	    
+	    return end;
+	}
+	
 	int count(int arr[], int n, int x) {
-	    return upper_bound(arr, arr + n, x) - lower_bound(arr, arr + n, x);
+	    return upper(arr, n, x) - lower(arr, n, x) + 1;
 	}
 };
 
